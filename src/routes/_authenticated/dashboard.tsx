@@ -342,7 +342,7 @@ function Dashboard() {
             )}
           </FlairCard>
 
-          <FlairCard className="lg:col-span-3" piece="♘" title="Curriculum coverage" icon={<BookOpen className="h-4 w-4" />}>
+          <FlairCard className="lg:col-span-3" piece="♘" title="Curriculum coverage" icon={<BookOpen className="h-4 w-4" />} bgImage={CHESS_IMAGES.fallen}>
             {loading ? <SkeletonRows /> : topicCoverage.length === 0 ? <Empty text="No topic coverage tracked yet." /> : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 {topicCoverage.map((t: any, i: number) => (
