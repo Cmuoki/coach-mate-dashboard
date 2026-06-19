@@ -289,7 +289,7 @@ function Dashboard() {
             )}
           </FlairCard>
 
-          <FlairCard piece="♛" title="Recent badges" icon={<Award className="h-4 w-4" />}>
+          <FlairCard piece="♛" title="Recent badges" icon={<Award className="h-4 w-4" />} bgImage={CHESS_IMAGES.crown}>
             {loading ? <SkeletonRows /> : recentBadges.length === 0 ? <Empty text="No badges awarded yet." /> : (
               <ul className="space-y-3">
                 {recentBadges.map((b: any) => (
