@@ -308,7 +308,7 @@ function Dashboard() {
             )}
           </FlairCard>
 
-          <FlairCard className="lg:col-span-2" piece="♜" title="Recent lessons" icon={<BookOpen className="h-4 w-4" />}>
+          <FlairCard className="lg:col-span-2" piece="♜" title="Recent lessons" icon={<BookOpen className="h-4 w-4" />} bgImage={CHESS_IMAGES.lineup}>
             {loading ? <SkeletonRows /> : recentLessons.length === 0 ? <Empty text="No past lessons yet." /> : (
               <ul className="divide-y divide-border/60">
                 {recentLessons.map((l: any, i: number) => (
