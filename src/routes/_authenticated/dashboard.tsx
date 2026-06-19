@@ -202,27 +202,50 @@ function Dashboard() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-10 relative">
         {/* Hero */}
-        <section className="relative overflow-hidden rounded-3xl border border-border/60 bg-gradient-to-br from-card via-card to-primary/10 p-8 sm:p-10 shimmer-border animate-pop-in">
-          <div aria-hidden className="absolute inset-0 chess-board-bg opacity-40 [mask-image:radial-gradient(ellipse_at_top_right,black,transparent_60%)]" />
-          <div className="absolute -right-6 -bottom-10 text-[200px] leading-none text-primary/15 select-none rotate-[8deg]">♚</div>
-          <div className="relative flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-            <div className="space-y-3">
-              <Badge variant="secondary" className="rounded-full px-3 py-1 bg-primary/10 text-primary border-0">
+        <section className="relative overflow-hidden rounded-3xl border border-border/60 shimmer-border animate-pop-in min-h-[280px]">
+          <img
+            src={CHESS_IMAGES.king}
+            alt="Chess king and knight on a wooden board"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/30" />
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+          <div className="relative flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 p-8 sm:p-10">
+            <div className="space-y-3 max-w-xl">
+              <Badge variant="secondary" className="rounded-full px-3 py-1 bg-primary/20 text-primary border-0 backdrop-blur">
                 <Flame className="h-3 w-3 mr-1" /> Live board
               </Badge>
-              <h1 className="text-4xl sm:text-5xl font-black tracking-tight">
+              <h1 className="text-4xl sm:text-5xl font-black tracking-tight drop-shadow-sm">
                 {greeting}, <span className="gradient-text">{name}</span>
               </h1>
-              <p className="text-muted-foreground max-w-xl">
+              <p className="text-muted-foreground">
                 Your kingdom at a glance — every pawn, every prodigy, every move that matters.
               </p>
             </div>
             {isEmpty && !loading && (
-              <Button size="lg" onClick={handleSeed} disabled={seeding} className="shadow-lg shadow-primary/30">
+              <Button size="lg" onClick={handleSeed} disabled={seeding} className="shadow-lg shadow-primary/30 backdrop-blur">
                 <Sparkles className="h-4 w-4" /> {seeding ? "Setting the board…" : "Load sample data"}
               </Button>
             )}
           </div>
+        </section>
+
+        {/* Imagery strip */}
+        <section className="grid grid-cols-3 gap-3 sm:gap-4">
+          {[
+            { src: CHESS_IMAGES.lineup, label: "The lineup", sub: "Every student in formation" },
+            { src: CHESS_IMAGES.rook, label: "Stand tall", sub: "Strategy starts with structure" },
+            { src: CHESS_IMAGES.fallen, label: "Last pawn standing", sub: "Endgames are won, not given" },
+          ].map((tile) => (
+            <div key={tile.label} className="group relative h-32 sm:h-40 rounded-2xl overflow-hidden border border-border/60 shadow-md">
+              <img src={tile.src} alt={tile.label} loading="lazy" className="absolute inset-0 h-full w-full object-cover grayscale-[0.3] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 text-white">
+                <div className="text-sm sm:text-base font-bold leading-tight">{tile.label}</div>
+                <div className="text-[10px] sm:text-xs opacity-80 hidden sm:block">{tile.sub}</div>
+              </div>
+            </div>
+          ))}
         </section>
 
         {/* Stat cards with chess piece per metric */}
