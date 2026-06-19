@@ -15,12 +15,18 @@ import chessKing from "@/assets/chess-king.jpg";
 import chessFallen from "@/assets/chess-fallen.webp.asset.json";
 import chessRook from "@/assets/chess-rook.webp.asset.json";
 import chessLineup from "@/assets/chess-lineup.webp.asset.json";
+import chessBg from "@/assets/chess-bg.jpg.asset.json";
+import chessKnight from "@/assets/chess-knight.jpg.asset.json";
+import chessCrown from "@/assets/chess-crown.jpg.asset.json";
 
 const CHESS_IMAGES = {
   king: chessKing,
   fallen: chessFallen.url,
   rook: chessRook.url,
   lineup: chessLineup.url,
+  bg: chessBg.url,
+  knight: chessKnight.url,
+  crown: chessCrown.url,
 };
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
@@ -166,6 +172,11 @@ function Dashboard() {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
+      {/* Ambient chess photo backdrop */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
+        <img src={CHESS_IMAGES.bg} alt="" className="absolute inset-0 h-full w-full object-cover opacity-20" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/90 to-background" />
+      </div>
       {/* Floating chess pieces backdrop */}
       <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
         <div className="absolute top-24 -left-6 text-[180px] leading-none text-primary/5 select-none animate-float" style={{ ["--rot" as any]: "-8deg" }}>♞</div>
@@ -259,7 +270,7 @@ function Dashboard() {
         </section>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <FlairCard className="lg:col-span-2" piece="♗" title="Upcoming lessons" icon={<Clock className="h-4 w-4" />} right={<Badge className="bg-primary/10 text-primary border-0">{upcoming.length}</Badge>}>
+          <FlairCard className="lg:col-span-2" piece="♗" title="Upcoming lessons" icon={<Clock className="h-4 w-4" />} bgImage={CHESS_IMAGES.knight} right={<Badge className="bg-primary/10 text-primary border-0">{upcoming.length}</Badge>}>
             {loading ? <SkeletonRows /> : upcoming.length === 0 ? <Empty text="No upcoming lessons scheduled." /> : (
               <ul className="divide-y divide-border/60">
                 {upcoming.map((l: any, i: number) => (
@@ -278,7 +289,7 @@ function Dashboard() {
             )}
           </FlairCard>
 
-          <FlairCard piece="♛" title="Recent badges" icon={<Award className="h-4 w-4" />}>
+          <FlairCard piece="♛" title="Recent badges" icon={<Award className="h-4 w-4" />} bgImage={CHESS_IMAGES.crown}>
             {loading ? <SkeletonRows /> : recentBadges.length === 0 ? <Empty text="No badges awarded yet." /> : (
               <ul className="space-y-3">
                 {recentBadges.map((b: any) => (
@@ -297,7 +308,7 @@ function Dashboard() {
             )}
           </FlairCard>
 
-          <FlairCard className="lg:col-span-2" piece="♜" title="Recent lessons" icon={<BookOpen className="h-4 w-4" />}>
+          <FlairCard className="lg:col-span-2" piece="♜" title="Recent lessons" icon={<BookOpen className="h-4 w-4" />} bgImage={CHESS_IMAGES.lineup}>
             {loading ? <SkeletonRows /> : recentLessons.length === 0 ? <Empty text="No past lessons yet." /> : (
               <ul className="divide-y divide-border/60">
                 {recentLessons.map((l: any, i: number) => (
@@ -314,7 +325,7 @@ function Dashboard() {
             )}
           </FlairCard>
 
-          <FlairCard piece="♔" title="Top students" icon={<Crown className="h-4 w-4" />}>
+          <FlairCard piece="♔" title="Top students" icon={<Crown className="h-4 w-4" />} bgImage={CHESS_IMAGES.rook}>
             {loading ? <SkeletonRows /> : topStudents.length === 0 ? <Empty text="No progress data yet." /> : (
               <ul className="space-y-2">
                 {topStudents.map((s: any, i: number) => {
@@ -331,7 +342,7 @@ function Dashboard() {
             )}
           </FlairCard>
 
-          <FlairCard className="lg:col-span-3" piece="♘" title="Curriculum coverage" icon={<BookOpen className="h-4 w-4" />}>
+          <FlairCard className="lg:col-span-3" piece="♘" title="Curriculum coverage" icon={<BookOpen className="h-4 w-4" />} bgImage={CHESS_IMAGES.fallen}>
             {loading ? <SkeletonRows /> : topicCoverage.length === 0 ? <Empty text="No topic coverage tracked yet." /> : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 {topicCoverage.map((t: any, i: number) => (
@@ -380,9 +391,15 @@ function StatCard({ piece, icon, label, value, loading, delay = 0, highlight = f
   );
 }
 
-function FlairCard({ children, className = "", piece, title, icon, right }: { children: React.ReactNode; className?: string; piece: string; title: string; icon: React.ReactNode; right?: React.ReactNode }) {
+function FlairCard({ children, className = "", piece, title, icon, right, bgImage }: { children: React.ReactNode; className?: string; piece: string; title: string; icon: React.ReactNode; right?: React.ReactNode; bgImage?: string }) {
   return (
     <Card className={`relative overflow-hidden border-border/60 bg-card/80 backdrop-blur animate-pop-in ${className}`}>
+      {bgImage && (
+        <>
+          <img src={bgImage} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-[0.08] pointer-events-none" />
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-br from-card/40 via-card/70 to-card/95 pointer-events-none" />
+        </>
+      )}
       <div aria-hidden className="absolute -top-4 -right-2 text-[110px] leading-none text-primary/[0.06] select-none rotate-[10deg] pointer-events-none">{piece}</div>
       <CardHeader className="flex flex-row items-center justify-between relative">
         <CardTitle className="flex items-center gap-2 text-base">
