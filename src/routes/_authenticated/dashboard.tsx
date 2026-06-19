@@ -172,6 +172,11 @@ function Dashboard() {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
+      {/* Ambient chess photo backdrop */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
+        <img src={CHESS_IMAGES.bg} alt="" className="absolute inset-0 h-full w-full object-cover opacity-20" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/90 to-background" />
+      </div>
       {/* Floating chess pieces backdrop */}
       <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
         <div className="absolute top-24 -left-6 text-[180px] leading-none text-primary/5 select-none animate-float" style={{ ["--rot" as any]: "-8deg" }}>♞</div>
