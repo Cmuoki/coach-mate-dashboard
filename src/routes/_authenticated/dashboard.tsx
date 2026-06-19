@@ -15,12 +15,18 @@ import chessKing from "@/assets/chess-king.jpg";
 import chessFallen from "@/assets/chess-fallen.webp.asset.json";
 import chessRook from "@/assets/chess-rook.webp.asset.json";
 import chessLineup from "@/assets/chess-lineup.webp.asset.json";
+import chessBg from "@/assets/chess-bg.jpg.asset.json";
+import chessKnight from "@/assets/chess-knight.jpg.asset.json";
+import chessCrown from "@/assets/chess-crown.jpg.asset.json";
 
 const CHESS_IMAGES = {
   king: chessKing,
   fallen: chessFallen.url,
   rook: chessRook.url,
   lineup: chessLineup.url,
+  bg: chessBg.url,
+  knight: chessKnight.url,
+  crown: chessCrown.url,
 };
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
