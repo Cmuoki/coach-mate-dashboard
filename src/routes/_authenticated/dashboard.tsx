@@ -325,7 +325,7 @@ function Dashboard() {
             )}
           </FlairCard>
 
-          <FlairCard piece="♔" title="Top students" icon={<Crown className="h-4 w-4" />}>
+          <FlairCard piece="♔" title="Top students" icon={<Crown className="h-4 w-4" />} bgImage={CHESS_IMAGES.rook}>
             {loading ? <SkeletonRows /> : topStudents.length === 0 ? <Empty text="No progress data yet." /> : (
               <ul className="space-y-2">
                 {topStudents.map((s: any, i: number) => {
