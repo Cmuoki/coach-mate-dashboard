@@ -270,7 +270,7 @@ function Dashboard() {
         </section>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <FlairCard className="lg:col-span-2" piece="♗" title="Upcoming lessons" icon={<Clock className="h-4 w-4" />} right={<Badge className="bg-primary/10 text-primary border-0">{upcoming.length}</Badge>}>
+          <FlairCard className="lg:col-span-2" piece="♗" title="Upcoming lessons" icon={<Clock className="h-4 w-4" />} bgImage={CHESS_IMAGES.knight} right={<Badge className="bg-primary/10 text-primary border-0">{upcoming.length}</Badge>}>
             {loading ? <SkeletonRows /> : upcoming.length === 0 ? <Empty text="No upcoming lessons scheduled." /> : (
               <ul className="divide-y divide-border/60">
                 {upcoming.map((l: any, i: number) => (
