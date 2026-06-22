@@ -174,15 +174,18 @@ function Dashboard() {
     <div className="min-h-screen relative overflow-hidden">
       {/* Ambient chess photo backdrop */}
       <div aria-hidden className="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
-        <img src={CHESS_IMAGES.bg} alt="" className="absolute inset-0 h-full w-full object-cover opacity-20" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/90 to-background" />
+        <img src={CHESS_IMAGES.bg} alt="" className="absolute inset-0 h-full w-full object-cover opacity-40" />
+        <div className="absolute inset-0 chess-board-bg opacity-60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/80 to-background/95" />
       </div>
       {/* Floating chess pieces backdrop */}
       <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <div className="absolute top-24 -left-6 text-[180px] leading-none text-primary/5 select-none animate-float" style={{ ["--rot" as any]: "-8deg" }}>♞</div>
-        <div className="absolute top-1/3 right-[-30px] text-[220px] leading-none text-primary/5 select-none animate-float-slow" style={{ ["--rot" as any]: "12deg" }}>♛</div>
-        <div className="absolute bottom-10 left-1/3 text-[160px] leading-none text-primary/[0.04] select-none animate-float" style={{ ["--rot" as any]: "6deg", animationDelay: "1.5s" }}>♜</div>
-        <div className="absolute top-[60%] left-10 text-[120px] leading-none text-primary/[0.05] select-none animate-float-slow" style={{ ["--rot" as any]: "-15deg" }}>♝</div>
+        <div className="absolute top-24 -left-6 text-[180px] leading-none text-primary/10 select-none animate-float" style={{ ["--rot" as any]: "-8deg" }}>♞</div>
+        <div className="absolute top-1/3 right-[-30px] text-[220px] leading-none text-primary/10 select-none animate-float-slow" style={{ ["--rot" as any]: "12deg" }}>♛</div>
+        <div className="absolute bottom-10 left-1/3 text-[160px] leading-none text-primary/[0.08] select-none animate-float" style={{ ["--rot" as any]: "6deg", animationDelay: "1.5s" }}>♜</div>
+        <div className="absolute top-[60%] left-10 text-[120px] leading-none text-primary/[0.09] select-none animate-float-slow" style={{ ["--rot" as any]: "-15deg" }}>♝</div>
+        <div className="absolute bottom-[20%] right-[15%] text-[140px] leading-none text-primary/[0.08] select-none animate-float" style={{ ["--rot" as any]: "10deg", animationDelay: "2s" }}>♚</div>
+        <div className="absolute bottom-[5%] right-[5%] text-[100px] leading-none text-primary/[0.09] select-none animate-float-slow" style={{ ["--rot" as any]: "-20deg" }}>♟</div>
       </div>
 
       {/* Header */}
@@ -362,9 +365,51 @@ function Dashboard() {
           </FlairCard>
         </div>
 
+        {/* Endgame banner */}
+        <section className="relative overflow-hidden rounded-3xl border border-border/60 shimmer-border min-h-[260px]">
+          <img src={CHESS_IMAGES.knight} alt="" className="absolute inset-0 h-full w-full object-cover" />
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/70 to-background/20" />
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />
+          <div className="relative p-8 sm:p-12 max-w-2xl space-y-4">
+            <Badge variant="secondary" className="rounded-full bg-primary/20 text-primary border-0 backdrop-blur">
+              <Crown className="h-3 w-3 mr-1" /> Coach's corner
+            </Badge>
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight">
+              Train them like <span className="gradient-text">grandmasters</span>.
+            </h2>
+            <p className="text-muted-foreground max-w-lg">
+              Track every move, celebrate every milestone. Your dashboard is the board — your students are the pieces.
+            </p>
+            <div className="flex flex-wrap gap-2 pt-2">
+              {["Openings","Tactics","Endgames","Strategy"].map((t) => (
+                <span key={t} className="text-xs px-3 py-1.5 rounded-full bg-card/70 backdrop-blur border border-border/60 font-medium">{t}</span>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Bottom imagery strip */}
+        <section className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+          {[
+            { src: CHESS_IMAGES.crown, label: "Crown the champion", piece: "♔" },
+            { src: CHESS_IMAGES.knight, label: "Knight's leap", piece: "♘" },
+            { src: CHESS_IMAGES.rook, label: "Hold the line", piece: "♖" },
+            { src: CHESS_IMAGES.fallen, label: "Sacrifice & win", piece: "♟" },
+          ].map((tile) => (
+            <div key={tile.label} className="group relative h-32 sm:h-36 rounded-2xl overflow-hidden border border-border/60 shadow-md">
+              <img src={tile.src} alt={tile.label} loading="lazy" className="absolute inset-0 h-full w-full object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+              <div aria-hidden className="absolute top-2 right-3 text-3xl text-white/30 group-hover:text-white/60 transition">{tile.piece}</div>
+              <div className="absolute bottom-0 left-0 right-0 p-3 text-white">
+                <div className="text-sm font-bold leading-tight">{tile.label}</div>
+              </div>
+            </div>
+          ))}
+        </section>
+
         <footer className="text-center text-xs text-muted-foreground py-4">
-          <span className="opacity-60">♙ ♘ ♗ ♖ ♕ ♔</span>
-          <div className="mt-1">Every lesson is a move. Play the long game.</div>
+          <span className="opacity-60 text-lg tracking-widest">♙ ♘ ♗ ♖ ♕ ♔</span>
+          <div className="mt-2">Every lesson is a move. Play the long game.</div>
         </footer>
       </main>
     </div>
@@ -396,8 +441,8 @@ function FlairCard({ children, className = "", piece, title, icon, right, bgImag
     <Card className={`relative overflow-hidden border-border/60 bg-card/80 backdrop-blur animate-pop-in ${className}`}>
       {bgImage && (
         <>
-          <img src={bgImage} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-[0.08] pointer-events-none" />
-          <div aria-hidden className="absolute inset-0 bg-gradient-to-br from-card/40 via-card/70 to-card/95 pointer-events-none" />
+          <img src={bgImage} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-20 pointer-events-none" />
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-br from-card/50 via-card/75 to-card/95 pointer-events-none" />
         </>
       )}
       <div aria-hidden className="absolute -top-4 -right-2 text-[110px] leading-none text-primary/[0.06] select-none rotate-[10deg] pointer-events-none">{piece}</div>
