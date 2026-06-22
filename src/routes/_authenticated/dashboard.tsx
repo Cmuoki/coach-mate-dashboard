@@ -18,6 +18,12 @@ import chessLineup from "@/assets/chess-lineup.webp.asset.json";
 import chessBg from "@/assets/chess-bg.jpg.asset.json";
 import chessKnight from "@/assets/chess-knight.jpg.asset.json";
 import chessCrown from "@/assets/chess-crown.jpg.asset.json";
+import statStudents from "@/assets/stat-students.jpg.asset.json";
+import statClasses from "@/assets/stat-classes.jpg.asset.json";
+import statSchools from "@/assets/stat-schools.jpg.asset.json";
+import statWeek from "@/assets/stat-week.jpg.asset.json";
+import statAttendance from "@/assets/stat-attendance.jpg.asset.json";
+import statBadges from "@/assets/stat-badges.jpg.asset.json";
 
 const CHESS_IMAGES = {
   king: chessKing,
@@ -27,6 +33,12 @@ const CHESS_IMAGES = {
   bg: chessBg.url,
   knight: chessKnight.url,
   crown: chessCrown.url,
+  statStudents: statStudents.url,
+  statClasses: statClasses.url,
+  statSchools: statSchools.url,
+  statWeek: statWeek.url,
+  statAttendance: statAttendance.url,
+  statBadges: statBadges.url,
 };
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
@@ -263,12 +275,12 @@ function Dashboard() {
 
         {/* Stat cards with chess piece per metric */}
         <section className="grid grid-cols-2 lg:grid-cols-6 gap-4">
-          <StatCard piece="♙" label="Students" value={stats.students} loading={loading} icon={<Users className="h-4 w-4" />} delay={0} />
-          <StatCard piece="♘" label="Classes" value={stats.classes} loading={loading} icon={<GraduationCap className="h-4 w-4" />} delay={60} />
-          <StatCard piece="♖" label="Schools" value={stats.schools} loading={loading} icon={<SchoolIcon className="h-4 w-4" />} delay={120} />
-          <StatCard piece="♗" label="This week" value={stats.lessonsThisWeek} loading={loading} icon={<CalendarCheck className="h-4 w-4" />} delay={180} />
-          <StatCard piece="♕" label="Attendance" value={`${stats.attendanceRate}%`} loading={loading} icon={<TrendingUp className="h-4 w-4" />} delay={240} />
-          <StatCard piece="♔" label="Badges" value={stats.badgesAwarded} loading={loading} icon={<Award className="h-4 w-4" />} delay={300} highlight />
+          <StatCard piece="♙" label="Students" value={stats.students} loading={loading} icon={<Users className="h-4 w-4" />} delay={0} bgImage={CHESS_IMAGES.statStudents} />
+          <StatCard piece="♘" label="Classes" value={stats.classes} loading={loading} icon={<GraduationCap className="h-4 w-4" />} delay={60} bgImage={CHESS_IMAGES.statClasses} />
+          <StatCard piece="♖" label="Schools" value={stats.schools} loading={loading} icon={<SchoolIcon className="h-4 w-4" />} delay={120} bgImage={CHESS_IMAGES.statSchools} />
+          <StatCard piece="♗" label="This week" value={stats.lessonsThisWeek} loading={loading} icon={<CalendarCheck className="h-4 w-4" />} delay={180} bgImage={CHESS_IMAGES.statWeek} />
+          <StatCard piece="♕" label="Attendance" value={`${stats.attendanceRate}%`} loading={loading} icon={<TrendingUp className="h-4 w-4" />} delay={240} bgImage={CHESS_IMAGES.statAttendance} />
+          <StatCard piece="♔" label="Badges" value={stats.badgesAwarded} loading={loading} icon={<Award className="h-4 w-4" />} delay={300} highlight bgImage={CHESS_IMAGES.statBadges} />
         </section>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -415,19 +427,25 @@ function Dashboard() {
   );
 }
 
-function StatCard({ piece, icon, label, value, loading, delay = 0, highlight = false }: { piece: string; icon: React.ReactNode; label: string; value: number | string; loading: boolean; delay?: number; highlight?: boolean }) {
+function StatCard({ piece, icon, label, value, loading, delay = 0, highlight = false, bgImage }: { piece: string; icon: React.ReactNode; label: string; value: number | string; loading: boolean; delay?: number; highlight?: boolean; bgImage?: string }) {
   return (
     <Card
-      className={`relative overflow-hidden border-border/60 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 animate-pop-in ${highlight ? "bg-gradient-to-br from-primary/15 via-card to-card" : "bg-gradient-to-br from-card to-primary/5"}`}
+      className={`group relative overflow-hidden border-border/60 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/20 transition-all duration-300 animate-pop-in min-h-[140px] ${highlight ? "bg-gradient-to-br from-primary/15 via-card to-card" : "bg-gradient-to-br from-card to-primary/5"}`}
       style={{ animationDelay: `${delay}ms` }}
     >
-      <div aria-hidden className="absolute -right-3 -bottom-4 text-7xl leading-none text-primary/10 select-none group-hover:rotate-12 transition">{piece}</div>
+      {bgImage && (
+        <>
+          <img src={bgImage} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" />
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-tr from-card via-card/85 to-card/30" />
+        </>
+      )}
+      <div aria-hidden className="absolute -right-3 -bottom-4 text-7xl leading-none text-primary/20 select-none group-hover:rotate-12 transition">{piece}</div>
       <CardContent className="p-5 relative">
         <div className="flex items-center justify-between">
           <div className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">{label}</div>
-          <div className="text-primary opacity-70">{icon}</div>
+          <div className="text-primary opacity-80">{icon}</div>
         </div>
-        <div className="mt-3 text-3xl font-black tracking-tight">
+        <div className="mt-3 text-3xl font-black tracking-tight drop-shadow-sm">
           {loading ? <span className="inline-block h-8 w-14 bg-muted rounded animate-pulse" /> : value}
         </div>
       </CardContent>
