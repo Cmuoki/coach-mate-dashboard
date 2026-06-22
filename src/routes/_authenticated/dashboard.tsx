@@ -174,18 +174,17 @@ function Dashboard() {
     <div className="min-h-screen relative overflow-hidden">
       {/* Ambient chess photo backdrop */}
       <div aria-hidden className="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
-        <img src={CHESS_IMAGES.bg} alt="" className="absolute inset-0 h-full w-full object-cover opacity-40" />
-        <div className="absolute inset-0 chess-board-bg opacity-60" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/80 to-background/95" />
+        <img src={CHESS_IMAGES.bg} alt="" className="absolute inset-0 h-full w-full object-cover opacity-60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/55 via-background/70 to-background/90" />
       </div>
-      {/* Floating chess pieces backdrop */}
+      {/* Floating chess photo collage */}
       <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <div className="absolute top-24 -left-6 text-[180px] leading-none text-primary/10 select-none animate-float" style={{ ["--rot" as any]: "-8deg" }}>♞</div>
-        <div className="absolute top-1/3 right-[-30px] text-[220px] leading-none text-primary/10 select-none animate-float-slow" style={{ ["--rot" as any]: "12deg" }}>♛</div>
-        <div className="absolute bottom-10 left-1/3 text-[160px] leading-none text-primary/[0.08] select-none animate-float" style={{ ["--rot" as any]: "6deg", animationDelay: "1.5s" }}>♜</div>
-        <div className="absolute top-[60%] left-10 text-[120px] leading-none text-primary/[0.09] select-none animate-float-slow" style={{ ["--rot" as any]: "-15deg" }}>♝</div>
-        <div className="absolute bottom-[20%] right-[15%] text-[140px] leading-none text-primary/[0.08] select-none animate-float" style={{ ["--rot" as any]: "10deg", animationDelay: "2s" }}>♚</div>
-        <div className="absolute bottom-[5%] right-[5%] text-[100px] leading-none text-primary/[0.09] select-none animate-float-slow" style={{ ["--rot" as any]: "-20deg" }}>♟</div>
+        <img src={CHESS_IMAGES.knight} alt="" className="absolute top-16 -left-10 h-64 w-64 object-cover rounded-3xl opacity-40 blur-[1px] animate-float shadow-2xl" style={{ ["--rot" as any]: "-8deg" }} />
+        <img src={CHESS_IMAGES.crown} alt="" className="absolute top-1/4 -right-12 h-72 w-72 object-cover rounded-3xl opacity-35 blur-[1px] animate-float-slow shadow-2xl" style={{ ["--rot" as any]: "10deg" }} />
+        <img src={CHESS_IMAGES.rook} alt="" className="absolute top-[55%] left-[5%] h-56 w-56 object-cover rounded-3xl opacity-30 blur-[1px] animate-float-slow shadow-2xl" style={{ ["--rot" as any]: "-12deg", animationDelay: "1.2s" }} />
+        <img src={CHESS_IMAGES.lineup} alt="" className="absolute bottom-10 right-1/4 h-60 w-72 object-cover rounded-3xl opacity-35 blur-[1px] animate-float shadow-2xl" style={{ ["--rot" as any]: "6deg", animationDelay: "2s" }} />
+        <img src={CHESS_IMAGES.fallen} alt="" className="absolute top-[45%] left-1/2 -translate-x-1/2 h-52 w-52 object-cover rounded-3xl opacity-25 blur-[2px] animate-float-slow shadow-2xl" style={{ ["--rot" as any]: "4deg", animationDelay: "0.8s" }} />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/40 to-background/70" />
       </div>
 
       {/* Header */}
