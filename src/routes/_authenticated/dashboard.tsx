@@ -275,12 +275,12 @@ function Dashboard() {
 
         {/* Stat cards with chess piece per metric */}
         <section className="grid grid-cols-2 lg:grid-cols-6 gap-4">
-          <StatCard piece="♙" label="Students" value={stats.students} loading={loading} icon={<Users className="h-4 w-4" />} delay={0} />
-          <StatCard piece="♘" label="Classes" value={stats.classes} loading={loading} icon={<GraduationCap className="h-4 w-4" />} delay={60} />
-          <StatCard piece="♖" label="Schools" value={stats.schools} loading={loading} icon={<SchoolIcon className="h-4 w-4" />} delay={120} />
-          <StatCard piece="♗" label="This week" value={stats.lessonsThisWeek} loading={loading} icon={<CalendarCheck className="h-4 w-4" />} delay={180} />
-          <StatCard piece="♕" label="Attendance" value={`${stats.attendanceRate}%`} loading={loading} icon={<TrendingUp className="h-4 w-4" />} delay={240} />
-          <StatCard piece="♔" label="Badges" value={stats.badgesAwarded} loading={loading} icon={<Award className="h-4 w-4" />} delay={300} highlight />
+          <StatCard piece="♙" label="Students" value={stats.students} loading={loading} icon={<Users className="h-4 w-4" />} delay={0} bgImage={CHESS_IMAGES.statStudents} />
+          <StatCard piece="♘" label="Classes" value={stats.classes} loading={loading} icon={<GraduationCap className="h-4 w-4" />} delay={60} bgImage={CHESS_IMAGES.statClasses} />
+          <StatCard piece="♖" label="Schools" value={stats.schools} loading={loading} icon={<SchoolIcon className="h-4 w-4" />} delay={120} bgImage={CHESS_IMAGES.statSchools} />
+          <StatCard piece="♗" label="This week" value={stats.lessonsThisWeek} loading={loading} icon={<CalendarCheck className="h-4 w-4" />} delay={180} bgImage={CHESS_IMAGES.statWeek} />
+          <StatCard piece="♕" label="Attendance" value={`${stats.attendanceRate}%`} loading={loading} icon={<TrendingUp className="h-4 w-4" />} delay={240} bgImage={CHESS_IMAGES.statAttendance} />
+          <StatCard piece="♔" label="Badges" value={stats.badgesAwarded} loading={loading} icon={<Award className="h-4 w-4" />} delay={300} highlight bgImage={CHESS_IMAGES.statBadges} />
         </section>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
