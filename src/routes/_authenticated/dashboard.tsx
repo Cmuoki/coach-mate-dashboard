@@ -365,9 +365,51 @@ function Dashboard() {
           </FlairCard>
         </div>
 
+        {/* Endgame banner */}
+        <section className="relative overflow-hidden rounded-3xl border border-border/60 shimmer-border min-h-[260px]">
+          <img src={CHESS_IMAGES.knight} alt="" className="absolute inset-0 h-full w-full object-cover" />
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/70 to-background/20" />
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />
+          <div className="relative p-8 sm:p-12 max-w-2xl space-y-4">
+            <Badge variant="secondary" className="rounded-full bg-primary/20 text-primary border-0 backdrop-blur">
+              <Crown className="h-3 w-3 mr-1" /> Coach's corner
+            </Badge>
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight">
+              Train them like <span className="gradient-text">grandmasters</span>.
+            </h2>
+            <p className="text-muted-foreground max-w-lg">
+              Track every move, celebrate every milestone. Your dashboard is the board — your students are the pieces.
+            </p>
+            <div className="flex flex-wrap gap-2 pt-2">
+              {["Openings","Tactics","Endgames","Strategy"].map((t) => (
+                <span key={t} className="text-xs px-3 py-1.5 rounded-full bg-card/70 backdrop-blur border border-border/60 font-medium">{t}</span>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Bottom imagery strip */}
+        <section className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+          {[
+            { src: CHESS_IMAGES.crown, label: "Crown the champion", piece: "♔" },
+            { src: CHESS_IMAGES.knight, label: "Knight's leap", piece: "♘" },
+            { src: CHESS_IMAGES.rook, label: "Hold the line", piece: "♖" },
+            { src: CHESS_IMAGES.fallen, label: "Sacrifice & win", piece: "♟" },
+          ].map((tile) => (
+            <div key={tile.label} className="group relative h-32 sm:h-36 rounded-2xl overflow-hidden border border-border/60 shadow-md">
+              <img src={tile.src} alt={tile.label} loading="lazy" className="absolute inset-0 h-full w-full object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+              <div aria-hidden className="absolute top-2 right-3 text-3xl text-white/30 group-hover:text-white/60 transition">{tile.piece}</div>
+              <div className="absolute bottom-0 left-0 right-0 p-3 text-white">
+                <div className="text-sm font-bold leading-tight">{tile.label}</div>
+              </div>
+            </div>
+          ))}
+        </section>
+
         <footer className="text-center text-xs text-muted-foreground py-4">
-          <span className="opacity-60">♙ ♘ ♗ ♖ ♕ ♔</span>
-          <div className="mt-1">Every lesson is a move. Play the long game.</div>
+          <span className="opacity-60 text-lg tracking-widest">♙ ♘ ♗ ♖ ♕ ♔</span>
+          <div className="mt-2">Every lesson is a move. Play the long game.</div>
         </footer>
       </main>
     </div>
