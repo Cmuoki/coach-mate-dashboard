@@ -435,8 +435,9 @@ function StatCard({ piece, icon, label, value, loading, delay = 0, highlight = f
     >
       {bgImage && (
         <>
-          <img src={bgImage} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" />
-          <div aria-hidden className="absolute inset-0 bg-gradient-to-tr from-card via-card/85 to-card/30" />
+          <img src={bgImage} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" />
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-tr from-card via-card/70 to-card/10" />
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-card/95 via-card/40 to-transparent" />
         </>
       )}
       <div aria-hidden className="absolute -right-3 -bottom-4 text-7xl leading-none text-primary/20 select-none group-hover:rotate-12 transition">{piece}</div>
