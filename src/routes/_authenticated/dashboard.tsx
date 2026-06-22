@@ -399,8 +399,8 @@ function FlairCard({ children, className = "", piece, title, icon, right, bgImag
     <Card className={`relative overflow-hidden border-border/60 bg-card/80 backdrop-blur animate-pop-in ${className}`}>
       {bgImage && (
         <>
-          <img src={bgImage} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-[0.08] pointer-events-none" />
-          <div aria-hidden className="absolute inset-0 bg-gradient-to-br from-card/40 via-card/70 to-card/95 pointer-events-none" />
+          <img src={bgImage} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-20 pointer-events-none" />
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-br from-card/50 via-card/75 to-card/95 pointer-events-none" />
         </>
       )}
       <div aria-hidden className="absolute -top-4 -right-2 text-[110px] leading-none text-primary/[0.06] select-none rotate-[10deg] pointer-events-none">{piece}</div>
