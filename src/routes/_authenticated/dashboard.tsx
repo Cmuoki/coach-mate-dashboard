@@ -427,19 +427,25 @@ function Dashboard() {
   );
 }
 
-function StatCard({ piece, icon, label, value, loading, delay = 0, highlight = false }: { piece: string; icon: React.ReactNode; label: string; value: number | string; loading: boolean; delay?: number; highlight?: boolean }) {
+function StatCard({ piece, icon, label, value, loading, delay = 0, highlight = false, bgImage }: { piece: string; icon: React.ReactNode; label: string; value: number | string; loading: boolean; delay?: number; highlight?: boolean; bgImage?: string }) {
   return (
     <Card
-      className={`relative overflow-hidden border-border/60 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 animate-pop-in ${highlight ? "bg-gradient-to-br from-primary/15 via-card to-card" : "bg-gradient-to-br from-card to-primary/5"}`}
+      className={`group relative overflow-hidden border-border/60 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/20 transition-all duration-300 animate-pop-in min-h-[140px] ${highlight ? "bg-gradient-to-br from-primary/15 via-card to-card" : "bg-gradient-to-br from-card to-primary/5"}`}
       style={{ animationDelay: `${delay}ms` }}
     >
-      <div aria-hidden className="absolute -right-3 -bottom-4 text-7xl leading-none text-primary/10 select-none group-hover:rotate-12 transition">{piece}</div>
+      {bgImage && (
+        <>
+          <img src={bgImage} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" />
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-tr from-card via-card/85 to-card/30" />
+        </>
+      )}
+      <div aria-hidden className="absolute -right-3 -bottom-4 text-7xl leading-none text-primary/20 select-none group-hover:rotate-12 transition">{piece}</div>
       <CardContent className="p-5 relative">
         <div className="flex items-center justify-between">
           <div className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">{label}</div>
-          <div className="text-primary opacity-70">{icon}</div>
+          <div className="text-primary opacity-80">{icon}</div>
         </div>
-        <div className="mt-3 text-3xl font-black tracking-tight">
+        <div className="mt-3 text-3xl font-black tracking-tight drop-shadow-sm">
           {loading ? <span className="inline-block h-8 w-14 bg-muted rounded animate-pulse" /> : value}
         </div>
       </CardContent>
