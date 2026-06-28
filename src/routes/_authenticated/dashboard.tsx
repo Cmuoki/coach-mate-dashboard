@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -212,6 +212,12 @@ function Dashboard() {
               <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground mt-0.5">Coach console</div>
             </div>
           </div>
+          <nav className="hidden md:flex items-center gap-1 mx-auto">
+            <Link to="/dashboard" className="px-3 py-2 rounded-lg text-sm bg-primary/15 text-primary font-medium">Dashboard</Link>
+            <Link to="/schools" className="px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted/60">Schools</Link>
+            <Link to="/classes" className="px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted/60">Classes</Link>
+            <Link to="/students" className="px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted/60">Students</Link>
+          </nav>
           <div className="flex items-center gap-3">
             <Avatar className="h-9 w-9 ring-2 ring-primary/30">
               <AvatarFallback className="bg-gradient-to-br from-primary/20 to-primary/5 text-primary text-xs font-bold">
