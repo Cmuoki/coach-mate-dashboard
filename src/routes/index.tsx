@@ -119,8 +119,7 @@ function SplashLanding() {
                 Coach like a <span className="gradient-text">fortress.</span>
               </h1>
               <p className="text-lg text-muted-foreground max-w-lg leading-relaxed">
-                The rook is your anchor — steady, powerful, defending the back rank. Rooky Coach is built around it:
-                classes, students, schools and progress, all held in formation.
+                Rooky Coach is built around it: classes, students, schools and progress, all held in formation.
               </p>
               <div className="flex flex-wrap gap-3 pt-2">
                 <Button asChild size="lg" className="shadow-lg shadow-primary/30">
