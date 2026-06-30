@@ -100,7 +100,10 @@ function ClassDetail() {
 
         <Card className="bg-background/70 backdrop-blur">
           <CardContent className="p-6 space-y-4">
-            <h2 className="font-bold flex items-center gap-2"><BookOpen className="h-4 w-4 text-primary" /> Recent lessons</h2>
+            <div className="flex items-center justify-between">
+              <h2 className="font-bold flex items-center gap-2"><BookOpen className="h-4 w-4 text-primary" /> Recent lessons</h2>
+              <Button asChild size="sm" variant="outline"><Link to="/lessons">Log lesson</Link></Button>
+            </div>
             {loading ? (
               <div className="space-y-2">{Array.from({ length: 3 }).map((_, i) => <div key={i} className="h-14 rounded-lg bg-muted/40 animate-pulse" />)}</div>
             ) : lessons.length === 0 ? (
@@ -108,12 +111,14 @@ function ClassDetail() {
             ) : (
               <ul className="space-y-3">
                 {lessons.map((l) => (
-                  <li key={l.id} className="rounded-lg border border-border/60 p-3 space-y-1">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="font-medium text-sm truncate">{l.topic || "Lesson"}</span>
-                      <span className="text-xs text-muted-foreground inline-flex items-center gap-1 shrink-0"><Calendar className="h-3 w-3" />{fmtDate(l.lesson_date)}</span>
-                    </div>
-                    {l.notes && <p className="text-xs text-muted-foreground line-clamp-2">{l.notes}</p>}
+                  <li key={l.id}>
+                    <Link to="/lessons/$id" params={{ id: l.id }} className="block rounded-lg border border-border/60 p-3 space-y-1 hover:border-primary/50 hover:bg-muted/30 transition-colors">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="font-medium text-sm truncate">{l.topic || "Lesson"}</span>
+                        <span className="text-xs text-muted-foreground inline-flex items-center gap-1 shrink-0"><Calendar className="h-3 w-3" />{fmtDate(l.lesson_date)}</span>
+                      </div>
+                      {l.notes && <p className="text-xs text-muted-foreground line-clamp-2">{l.notes}</p>}
+                    </Link>
                   </li>
                 ))}
               </ul>
