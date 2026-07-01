@@ -51,7 +51,7 @@ function SplashLanding() {
         </div>
         <div className="flex flex-col items-center gap-5">
           <div className="relative h-20 w-20 rounded-2xl bg-gradient-to-br from-primary to-primary/60 text-primary-foreground grid place-items-center text-5xl shadow-2xl shadow-primary/40 animate-float">
-            ♞
+            ♜
             <span className="absolute -top-1.5 -right-1.5 h-4 w-4 rounded-full bg-emerald-400 ring-2 ring-background animate-pulse" />
           </div>
           <div className="flex items-center gap-2 text-xs tracking-[0.4em] uppercase text-primary/80">
@@ -85,7 +85,7 @@ function SplashLanding() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="relative h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-primary/60 text-primary-foreground grid place-items-center text-xl shadow-lg shadow-primary/30">
-              ♞
+              ♜
               <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-emerald-400 ring-2 ring-background animate-pulse" />
             </div>
             <div>
