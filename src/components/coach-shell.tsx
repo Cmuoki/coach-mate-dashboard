@@ -60,7 +60,7 @@ export function CoachShell({ children, title, subtitle, actions }: { children: R
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
           <Link to="/dashboard" className="flex items-center gap-3 shrink-0">
             <div className="relative h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-primary/60 text-primary-foreground grid place-items-center text-xl shadow-lg shadow-primary/30">
-              ♞
+              ♜
               <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-emerald-400 ring-2 ring-background animate-pulse" />
             </div>
             <div className="hidden sm:block">

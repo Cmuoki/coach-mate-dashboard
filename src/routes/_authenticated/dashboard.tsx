@@ -168,7 +168,7 @@ function Dashboard() {
         students!.slice(0, 6).forEach((s: any, i: number) => sbRows.push({ coach_id: coachId, student_id: s.id, badge_id: badgesCat[i % badgesCat.length].id }));
         await supabase.from("student_badges").insert(sbRows);
       }
-      toast.success("Sample data loaded ♞");
+      toast.success("Sample data loaded ♜");
       await load();
     } catch (e: any) {
       toast.error(e.message ?? "Failed to seed");
@@ -204,7 +204,7 @@ function Dashboard() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="relative h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-primary/60 text-primary-foreground grid place-items-center text-xl shadow-lg shadow-primary/30">
-              ♞
+              ♜
               <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-emerald-400 ring-2 ring-background animate-pulse" />
             </div>
             <div>
