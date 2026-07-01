@@ -2,7 +2,7 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { supabase } from "@/integrations/supabase/client";
-import { LogOut, LayoutDashboard, School as SchoolIcon, GraduationCap, Users, BookOpen } from "lucide-react";
+import { LogOut, LayoutDashboard, School as SchoolIcon, GraduationCap, Users, BookOpen, ScrollText, Award, TrendingUp } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 import chessBg from "@/assets/chess-bg.jpg.asset.json";
 import chessKnight from "@/assets/chess-knight.jpg.asset.json";
@@ -15,7 +15,11 @@ const NAV = [
   { to: "/classes", label: "Classes", icon: GraduationCap },
   { to: "/students", label: "Students", icon: Users },
   { to: "/lessons", label: "Lessons", icon: BookOpen },
+  { to: "/curriculum", label: "Curriculum", icon: ScrollText },
+  { to: "/badges", label: "Badges", icon: Award },
+  { to: "/progress", label: "Progress", icon: TrendingUp },
 ] as const;
+
 
 function initials(name?: string | null, email?: string | null) {
   const s = (name || email || "C").trim();
