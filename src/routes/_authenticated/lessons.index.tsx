@@ -20,7 +20,7 @@ import { toast } from "sonner";
 import { Plus, Pencil, Trash2, Calendar as CalIcon, ArrowRight, Search, BookOpen, ClipboardCheck } from "lucide-react";
 import { z } from "zod";
 
-export const Route = createFileRoute("/_authenticated/lessons")({
+export const Route = createFileRoute("/_authenticated/lessons/")({
   head: () => ({ meta: [{ title: "Lessons · Rooky Coach" }] }),
   component: LessonsPage,
 });

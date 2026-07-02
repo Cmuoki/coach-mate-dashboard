@@ -19,7 +19,7 @@ import { toast } from "sonner";
 import { Plus, Pencil, Trash2, MapPin, School as SchoolIcon, ArrowRight, Search } from "lucide-react";
 import { z } from "zod";
 
-export const Route = createFileRoute("/_authenticated/schools")({
+export const Route = createFileRoute("/_authenticated/schools/")({
   head: () => ({ meta: [{ title: "Schools · Rooky Coach" }] }),
   component: SchoolsPage,
 });
