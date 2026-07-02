@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedReportsRouteImport } from './routes/_authenticated/reports'
 import { Route as AuthenticatedProgressRouteImport } from './routes/_authenticated/progress'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedCurriculumRouteImport } from './routes/_authenticated/curriculum'
@@ -38,6 +39,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedReportsRoute = AuthenticatedReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedProgressRoute = AuthenticatedProgressRouteImport.update({
   id: '/progress',
@@ -111,6 +117,7 @@ export interface FileRoutesByFullPath {
   '/curriculum': typeof AuthenticatedCurriculumRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/progress': typeof AuthenticatedProgressRoute
+  '/reports': typeof AuthenticatedReportsRoute
   '/classes/$id': typeof AuthenticatedClassesIdRoute
   '/lessons/$id': typeof AuthenticatedLessonsIdRoute
   '/schools/$id': typeof AuthenticatedSchoolsIdRoute
@@ -127,6 +134,7 @@ export interface FileRoutesByTo {
   '/curriculum': typeof AuthenticatedCurriculumRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/progress': typeof AuthenticatedProgressRoute
+  '/reports': typeof AuthenticatedReportsRoute
   '/classes/$id': typeof AuthenticatedClassesIdRoute
   '/lessons/$id': typeof AuthenticatedLessonsIdRoute
   '/schools/$id': typeof AuthenticatedSchoolsIdRoute
@@ -145,6 +153,7 @@ export interface FileRoutesById {
   '/_authenticated/curriculum': typeof AuthenticatedCurriculumRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/progress': typeof AuthenticatedProgressRoute
+  '/_authenticated/reports': typeof AuthenticatedReportsRoute
   '/_authenticated/classes/$id': typeof AuthenticatedClassesIdRoute
   '/_authenticated/lessons/$id': typeof AuthenticatedLessonsIdRoute
   '/_authenticated/schools/$id': typeof AuthenticatedSchoolsIdRoute
@@ -163,6 +172,7 @@ export interface FileRouteTypes {
     | '/curriculum'
     | '/dashboard'
     | '/progress'
+    | '/reports'
     | '/classes/$id'
     | '/lessons/$id'
     | '/schools/$id'
@@ -179,6 +189,7 @@ export interface FileRouteTypes {
     | '/curriculum'
     | '/dashboard'
     | '/progress'
+    | '/reports'
     | '/classes/$id'
     | '/lessons/$id'
     | '/schools/$id'
@@ -196,6 +207,7 @@ export interface FileRouteTypes {
     | '/_authenticated/curriculum'
     | '/_authenticated/dashboard'
     | '/_authenticated/progress'
+    | '/_authenticated/reports'
     | '/_authenticated/classes/$id'
     | '/_authenticated/lessons/$id'
     | '/_authenticated/schools/$id'
@@ -234,6 +246,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/reports': {
+      id: '/_authenticated/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof AuthenticatedReportsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/progress': {
       id: '/_authenticated/progress'
@@ -327,6 +346,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedCurriculumRoute: typeof AuthenticatedCurriculumRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedProgressRoute: typeof AuthenticatedProgressRoute
+  AuthenticatedReportsRoute: typeof AuthenticatedReportsRoute
   AuthenticatedClassesIdRoute: typeof AuthenticatedClassesIdRoute
   AuthenticatedLessonsIdRoute: typeof AuthenticatedLessonsIdRoute
   AuthenticatedSchoolsIdRoute: typeof AuthenticatedSchoolsIdRoute
@@ -342,6 +362,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCurriculumRoute: AuthenticatedCurriculumRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedProgressRoute: AuthenticatedProgressRoute,
+  AuthenticatedReportsRoute: AuthenticatedReportsRoute,
   AuthenticatedClassesIdRoute: AuthenticatedClassesIdRoute,
   AuthenticatedLessonsIdRoute: AuthenticatedLessonsIdRoute,
   AuthenticatedSchoolsIdRoute: AuthenticatedSchoolsIdRoute,
