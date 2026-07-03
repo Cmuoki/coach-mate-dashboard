@@ -7,8 +7,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, GraduationCap, Award, TrendingUp, CalendarCheck } from "lucide-react";
+import { ArrowLeft, GraduationCap, Award, TrendingUp, CalendarCheck, Sparkles, Loader2, Copy, Download } from "lucide-react";
 import { toast } from "sonner";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { useServerFn } from "@tanstack/react-start";
+import { generateStudentReport } from "@/lib/reports.functions";
 
 export const Route = createFileRoute("/_authenticated/students/$id")({
   head: () => ({ meta: [{ title: "Student · Rooky Coach" }] }),
@@ -33,7 +38,7 @@ function StudentDetail() {
   const [student, setStudent] = useState<Student | null>(null);
   const [badges, setBadges] = useState<BadgeRow[]>([]);
   const [progress, setProgress] = useState<Progress[]>([]);
-  const [attendance, setAttendance] = useState({ total: 0, present: 0 });
+  const [attendance, setAttendance] = useState({ total: 0, present: 0, late: 0, absent: 0 });
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
@@ -68,7 +73,9 @@ function StudentDetail() {
     setProgress((pr ?? []) as Progress[]);
     const total = (att ?? []).length;
     const present = (att ?? []).filter((a: any) => a.status === "present").length;
-    setAttendance({ total, present });
+    const late = (att ?? []).filter((a: any) => a.status === "late").length;
+    const absent = (att ?? []).filter((a: any) => a.status === "absent").length;
+    setAttendance({ total, present, late, absent });
     setLoading(false);
   }, [id, navigate]);
 
@@ -76,11 +83,76 @@ function StudentDetail() {
 
   const attendancePct = attendance.total ? Math.round((attendance.present / attendance.total) * 100) : 0;
 
+  const [aiOpen, setAiOpen] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiFocus, setAiFocus] = useState("");
+  const [aiReport, setAiReport] = useState("");
+  const runGenerate = useServerFn(generateStudentReport);
+
+  const generateReport = useCallback(async () => {
+    if (!student) return;
+    setAiLoading(true);
+    setAiReport("");
+    try {
+      // Pull recent lessons + this student's status on each
+      const { data: att } = await supabase
+        .from("attendance")
+        .select("status,lesson_id")
+        .eq("student_id", id)
+        .order("created_at", { ascending: false })
+        .limit(10);
+      const lessonIds = (att ?? []).map((a: any) => a.lesson_id);
+      let recentLessons: Array<{ topic: string | null; date: string; status: string | null }> = [];
+      if (lessonIds.length) {
+        const { data: ls } = await supabase
+          .from("lessons")
+          .select("id,topic,lesson_date")
+          .in("id", lessonIds);
+        const map = new Map((ls ?? []).map((l: any) => [l.id, l]));
+        recentLessons = (att ?? []).map((a: any) => {
+          const l = map.get(a.lesson_id) as any;
+          return { topic: l?.topic ?? null, date: l?.lesson_date ?? "", status: a.status };
+        });
+      }
+      const { report } = await runGenerate({
+        data: {
+          student: { name: student.full_name, className: student.className ?? null, rating: student.rating },
+          attendance,
+          progress: progress.map((p) => ({ score: p.score, recorded_at: p.recorded_at })),
+          badges: badges.map((b) => ({ name: b.name, awarded_at: b.awarded_at })),
+          recentLessons,
+          focus: aiFocus.trim() || undefined,
+        },
+      });
+      setAiReport(report);
+    } catch (e: any) {
+      toast.error(e?.message ?? "Failed to generate report");
+    } finally {
+      setAiLoading(false);
+    }
+  }, [student, id, attendance, progress, badges, aiFocus, runGenerate]);
+
+  function downloadMarkdown() {
+    const blob = new Blob([aiReport], { type: "text/markdown" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `${(student?.full_name ?? "student").replace(/\s+/g, "-")}-report.md`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
   return (
     <CoachShell
       title={student?.full_name ?? "Student"}
       subtitle={student?.className ? `In ${student.className}` : "Student profile"}
-      actions={<Button variant="ghost" asChild><Link to="/students"><ArrowLeft className="h-4 w-4" /> All students</Link></Button>}
+      actions={
+        <div className="flex items-center gap-2">
+          <Button size="sm" onClick={() => { setAiOpen(true); if (!aiReport) void generateReport(); }} disabled={!student}>
+            <Sparkles className="h-4 w-4" /> Generate report
+          </Button>
+          <Button variant="ghost" asChild><Link to="/students"><ArrowLeft className="h-4 w-4" /> All students</Link></Button>
+        </div>
+      }
     >
       <Card className="bg-background/70 backdrop-blur">
         <CardContent className="p-6 flex flex-col sm:flex-row sm:items-center gap-4">
@@ -155,6 +227,40 @@ function StudentDetail() {
           )}
         </CardContent>
       </Card>
+
+      <Dialog open={aiOpen} onOpenChange={setAiOpen}>
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-hidden flex flex-col">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2"><Sparkles className="h-4 w-4 text-primary" /> Report for {student?.full_name}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3 overflow-y-auto pr-1">
+            <div className="space-y-2">
+              <Label htmlFor="focus" className="text-xs">Focus (optional)</Label>
+              <Textarea id="focus" value={aiFocus} onChange={(e) => setAiFocus(e.target.value)} placeholder="e.g. Prepare for upcoming tournament, or share with parent" rows={2} />
+            </div>
+            {aiLoading ? (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground py-8 justify-center">
+                <Loader2 className="h-4 w-4 animate-spin" /> Drafting {student?.full_name?.split(" ")[0]}'s report…
+              </div>
+            ) : aiReport ? (
+              <div className="rounded-lg border bg-muted/30 p-4 text-sm whitespace-pre-wrap leading-relaxed">{aiReport}</div>
+            ) : (
+              <div className="text-sm text-muted-foreground py-8 text-center">Click Generate to draft a personal progress report.</div>
+            )}
+          </div>
+          <DialogFooter className="gap-2 sm:gap-2">
+            <Button variant="outline" size="sm" onClick={() => void generateReport()} disabled={aiLoading}>
+              <Sparkles className="h-4 w-4" /> {aiReport ? "Regenerate" : "Generate"}
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => { void navigator.clipboard.writeText(aiReport); toast.success("Copied"); }} disabled={!aiReport || aiLoading}>
+              <Copy className="h-4 w-4" /> Copy
+            </Button>
+            <Button size="sm" onClick={downloadMarkdown} disabled={!aiReport || aiLoading}>
+              <Download className="h-4 w-4" /> Download .md
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </CoachShell>
   );
 }
