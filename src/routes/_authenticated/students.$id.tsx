@@ -38,7 +38,7 @@ function StudentDetail() {
   const [student, setStudent] = useState<Student | null>(null);
   const [badges, setBadges] = useState<BadgeRow[]>([]);
   const [progress, setProgress] = useState<Progress[]>([]);
-  const [attendance, setAttendance] = useState({ total: 0, present: 0 });
+  const [attendance, setAttendance] = useState({ total: 0, present: 0, late: 0, absent: 0 });
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
