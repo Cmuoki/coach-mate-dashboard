@@ -73,7 +73,9 @@ function StudentDetail() {
     setProgress((pr ?? []) as Progress[]);
     const total = (att ?? []).length;
     const present = (att ?? []).filter((a: any) => a.status === "present").length;
-    setAttendance({ total, present });
+    const late = (att ?? []).filter((a: any) => a.status === "late").length;
+    const absent = (att ?? []).filter((a: any) => a.status === "absent").length;
+    setAttendance({ total, present, late, absent });
     setLoading(false);
   }, [id, navigate]);
 
