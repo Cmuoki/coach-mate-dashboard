@@ -349,6 +349,40 @@ function ReportsPage() {
           )}
         </CardContent>
       </Card>
+
+      <Dialog open={aiOpen} onOpenChange={setAiOpen}>
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-hidden flex flex-col">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2"><Sparkles className="h-4 w-4 text-primary" /> AI narrative report</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3 overflow-y-auto pr-1">
+            <div className="space-y-2">
+              <Label htmlFor="focus" className="text-xs">Focus (optional)</Label>
+              <Textarea id="focus" value={aiFocus} onChange={(e) => setAiFocus(e.target.value)} placeholder="e.g. Highlight struggling beginners and suggest interventions" rows={2} />
+            </div>
+            {aiLoading ? (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground py-8 justify-center">
+                <Loader2 className="h-4 w-4 animate-spin" /> Drafting your report…
+              </div>
+            ) : aiReport ? (
+              <div className="rounded-lg border bg-muted/30 p-4 text-sm whitespace-pre-wrap leading-relaxed">{aiReport}</div>
+            ) : (
+              <div className="text-sm text-muted-foreground py-8 text-center">Click Generate to draft a report from the current term data.</div>
+            )}
+          </div>
+          <DialogFooter className="gap-2 sm:gap-2">
+            <Button variant="outline" size="sm" onClick={() => void generateReport()} disabled={aiLoading}>
+              <Sparkles className="h-4 w-4" /> {aiReport ? "Regenerate" : "Generate"}
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => { void navigator.clipboard.writeText(aiReport); toast.success("Copied"); }} disabled={!aiReport || aiLoading}>
+              <Copy className="h-4 w-4" /> Copy
+            </Button>
+            <Button size="sm" onClick={downloadMarkdown} disabled={!aiReport || aiLoading}>
+              <Download className="h-4 w-4" /> Download .md
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </CoachShell>
   );
 }
