@@ -83,11 +83,76 @@ function StudentDetail() {
 
   const attendancePct = attendance.total ? Math.round((attendance.present / attendance.total) * 100) : 0;
 
+  const [aiOpen, setAiOpen] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiFocus, setAiFocus] = useState("");
+  const [aiReport, setAiReport] = useState("");
+  const runGenerate = useServerFn(generateStudentReport);
+
+  const generateReport = useCallback(async () => {
+    if (!student) return;
+    setAiLoading(true);
+    setAiReport("");
+    try {
+      // Pull recent lessons + this student's status on each
+      const { data: att } = await supabase
+        .from("attendance")
+        .select("status,lesson_id")
+        .eq("student_id", id)
+        .order("created_at", { ascending: false })
+        .limit(10);
+      const lessonIds = (att ?? []).map((a: any) => a.lesson_id);
+      let recentLessons: Array<{ topic: string | null; date: string; status: string | null }> = [];
+      if (lessonIds.length) {
+        const { data: ls } = await supabase
+          .from("lessons")
+          .select("id,topic,lesson_date")
+          .in("id", lessonIds);
+        const map = new Map((ls ?? []).map((l: any) => [l.id, l]));
+        recentLessons = (att ?? []).map((a: any) => {
+          const l = map.get(a.lesson_id) as any;
+          return { topic: l?.topic ?? null, date: l?.lesson_date ?? "", status: a.status };
+        });
+      }
+      const { report } = await runGenerate({
+        data: {
+          student: { name: student.full_name, className: student.className ?? null, rating: student.rating },
+          attendance,
+          progress: progress.map((p) => ({ score: p.score, recorded_at: p.recorded_at })),
+          badges: badges.map((b) => ({ name: b.name, awarded_at: b.awarded_at })),
+          recentLessons,
+          focus: aiFocus.trim() || undefined,
+        },
+      });
+      setAiReport(report);
+    } catch (e: any) {
+      toast.error(e?.message ?? "Failed to generate report");
+    } finally {
+      setAiLoading(false);
+    }
+  }, [student, id, attendance, progress, badges, aiFocus, runGenerate]);
+
+  function downloadMarkdown() {
+    const blob = new Blob([aiReport], { type: "text/markdown" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `${(student?.full_name ?? "student").replace(/\s+/g, "-")}-report.md`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
   return (
     <CoachShell
       title={student?.full_name ?? "Student"}
       subtitle={student?.className ? `In ${student.className}` : "Student profile"}
-      actions={<Button variant="ghost" asChild><Link to="/students"><ArrowLeft className="h-4 w-4" /> All students</Link></Button>}
+      actions={
+        <div className="flex items-center gap-2">
+          <Button size="sm" onClick={() => { setAiOpen(true); if (!aiReport) void generateReport(); }} disabled={!student}>
+            <Sparkles className="h-4 w-4" /> Generate report
+          </Button>
+          <Button variant="ghost" asChild><Link to="/students"><ArrowLeft className="h-4 w-4" /> All students</Link></Button>
+        </div>
+      }
     >
       <Card className="bg-background/70 backdrop-blur">
         <CardContent className="p-6 flex flex-col sm:flex-row sm:items-center gap-4">
