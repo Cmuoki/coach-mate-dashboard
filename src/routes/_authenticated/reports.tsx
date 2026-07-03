@@ -8,8 +8,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Download, TrendingUp, TrendingDown, Minus, Users, BookOpen, CheckCircle2 } from "lucide-react";
+import { Download, TrendingUp, TrendingDown, Minus, Users, BookOpen, CheckCircle2, Sparkles, Copy, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { useServerFn } from "@tanstack/react-start";
+import { generateNarrativeReport } from "@/lib/reports.functions";
 
 export const Route = createFileRoute("/_authenticated/reports")({
   head: () => ({ meta: [{ title: "Reports · Rooky Coach" }] }),
@@ -154,18 +159,61 @@ function ReportsPage() {
     ]);
   }
 
+  const [aiOpen, setAiOpen] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiFocus, setAiFocus] = useState("");
+  const [aiReport, setAiReport] = useState("");
+  const runGenerate = useServerFn(generateNarrativeReport);
+
+  async function generateReport() {
+    setAiLoading(true);
+    setAiReport("");
+    try {
+      const scope = classFilter === "all" ? "All classes" : `Class: ${classes.find((c) => c.id === classFilter)?.name ?? ""}`;
+      const { report } = await runGenerate({
+        data: {
+          termLabel: term.label,
+          scope,
+          focus: aiFocus.trim() || undefined,
+          totals: { classes: classRows.length, lessons: totalLessons, attendancePct: overallAtt, coveragePct: overallCov },
+          classes: classRows.map((r) => ({ name: r.cls.name, level: r.cls.level, students: r.students, lessons: r.lessons, attRate: r.attRate, covPct: r.covPct, avgDelta: r.avgDelta })),
+          students: studentRows.map((r) => ({ name: r.student.full_name, className: r.className, lessons: r.lessons, attRate: r.attRate, entries: r.entries, latest: r.latest, delta: r.delta })),
+        },
+      });
+      setAiReport(report);
+    } catch (e: any) {
+      toast.error(e?.message ?? "Failed to generate report");
+    } finally {
+      setAiLoading(false);
+    }
+  }
+
+  function downloadMarkdown() {
+    const blob = new Blob([aiReport], { type: "text/markdown" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `narrative-report-${term.label.replace(/\s+/g, "-")}.md`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
   return (
     <CoachShell
       title="Reports"
       subtitle={term.label}
       actions={
-        <Select value={classFilter} onValueChange={setClassFilter}>
-          <SelectTrigger className="w-52 bg-background/70"><SelectValue placeholder="Filter by class" /></SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All classes</SelectItem>
-            {classes.map((c) => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
-          </SelectContent>
-        </Select>
+        <div className="flex items-center gap-2">
+          <Button size="sm" onClick={() => { setAiOpen(true); if (!aiReport) void generateReport(); }}>
+            <Sparkles className="h-4 w-4" /> Generate report
+          </Button>
+          <Select value={classFilter} onValueChange={setClassFilter}>
+            <SelectTrigger className="w-52 bg-background/70"><SelectValue placeholder="Filter by class" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All classes</SelectItem>
+              {classes.map((c) => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
+            </SelectContent>
+          </Select>
+        </div>
       }
     >
       {/* Totals */}
@@ -301,6 +349,40 @@ function ReportsPage() {
           )}
         </CardContent>
       </Card>
+
+      <Dialog open={aiOpen} onOpenChange={setAiOpen}>
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-hidden flex flex-col">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2"><Sparkles className="h-4 w-4 text-primary" /> AI narrative report</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3 overflow-y-auto pr-1">
+            <div className="space-y-2">
+              <Label htmlFor="focus" className="text-xs">Focus (optional)</Label>
+              <Textarea id="focus" value={aiFocus} onChange={(e) => setAiFocus(e.target.value)} placeholder="e.g. Highlight struggling beginners and suggest interventions" rows={2} />
+            </div>
+            {aiLoading ? (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground py-8 justify-center">
+                <Loader2 className="h-4 w-4 animate-spin" /> Drafting your report…
+              </div>
+            ) : aiReport ? (
+              <div className="rounded-lg border bg-muted/30 p-4 text-sm whitespace-pre-wrap leading-relaxed">{aiReport}</div>
+            ) : (
+              <div className="text-sm text-muted-foreground py-8 text-center">Click Generate to draft a report from the current term data.</div>
+            )}
+          </div>
+          <DialogFooter className="gap-2 sm:gap-2">
+            <Button variant="outline" size="sm" onClick={() => void generateReport()} disabled={aiLoading}>
+              <Sparkles className="h-4 w-4" /> {aiReport ? "Regenerate" : "Generate"}
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => { void navigator.clipboard.writeText(aiReport); toast.success("Copied"); }} disabled={!aiReport || aiLoading}>
+              <Copy className="h-4 w-4" /> Copy
+            </Button>
+            <Button size="sm" onClick={downloadMarkdown} disabled={!aiReport || aiLoading}>
+              <Download className="h-4 w-4" /> Download .md
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </CoachShell>
   );
 }
