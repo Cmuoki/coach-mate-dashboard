@@ -159,18 +159,61 @@ function ReportsPage() {
     ]);
   }
 
+  const [aiOpen, setAiOpen] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiFocus, setAiFocus] = useState("");
+  const [aiReport, setAiReport] = useState("");
+  const runGenerate = useServerFn(generateNarrativeReport);
+
+  async function generateReport() {
+    setAiLoading(true);
+    setAiReport("");
+    try {
+      const scope = classFilter === "all" ? "All classes" : `Class: ${classes.find((c) => c.id === classFilter)?.name ?? ""}`;
+      const { report } = await runGenerate({
+        data: {
+          termLabel: term.label,
+          scope,
+          focus: aiFocus.trim() || undefined,
+          totals: { classes: classRows.length, lessons: totalLessons, attendancePct: overallAtt, coveragePct: overallCov },
+          classes: classRows.map((r) => ({ name: r.cls.name, level: r.cls.level, students: r.students, lessons: r.lessons, attRate: r.attRate, covPct: r.covPct, avgDelta: r.avgDelta })),
+          students: studentRows.map((r) => ({ name: r.student.full_name, className: r.className, lessons: r.lessons, attRate: r.attRate, entries: r.entries, latest: r.latest, delta: r.delta })),
+        },
+      });
+      setAiReport(report);
+    } catch (e: any) {
+      toast.error(e?.message ?? "Failed to generate report");
+    } finally {
+      setAiLoading(false);
+    }
+  }
+
+  function downloadMarkdown() {
+    const blob = new Blob([aiReport], { type: "text/markdown" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `narrative-report-${term.label.replace(/\s+/g, "-")}.md`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
   return (
     <CoachShell
       title="Reports"
       subtitle={term.label}
       actions={
-        <Select value={classFilter} onValueChange={setClassFilter}>
-          <SelectTrigger className="w-52 bg-background/70"><SelectValue placeholder="Filter by class" /></SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All classes</SelectItem>
-            {classes.map((c) => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
-          </SelectContent>
-        </Select>
+        <div className="flex items-center gap-2">
+          <Button size="sm" onClick={() => { setAiOpen(true); if (!aiReport) void generateReport(); }}>
+            <Sparkles className="h-4 w-4" /> Generate report
+          </Button>
+          <Select value={classFilter} onValueChange={setClassFilter}>
+            <SelectTrigger className="w-52 bg-background/70"><SelectValue placeholder="Filter by class" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All classes</SelectItem>
+              {classes.map((c) => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
+            </SelectContent>
+          </Select>
+        </div>
       }
     >
       {/* Totals */}
