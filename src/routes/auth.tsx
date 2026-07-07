@@ -45,12 +45,14 @@ function AuthPage() {
     });
   }, [navigate]);
 
+  const [pendingEmail, setPendingEmail] = useState<string | null>(null);
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     try {
       if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -59,8 +61,14 @@ function AuthPage() {
           },
         });
         if (error) throw error;
-        toast.success("Account created ♜ Redirecting…");
-        navigate({ to: "/dashboard" });
+        if (data.session) {
+          toast.success("Account created ♜ Redirecting…");
+          navigate({ to: "/dashboard" });
+        } else {
+          setPendingEmail(email);
+          setMode("signin");
+          toast.success("Account created — check your email to confirm, then sign in.");
+        }
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
@@ -225,12 +233,19 @@ function AuthPage() {
                 </Button>
               </form>
 
+              {pendingEmail && mode === "signin" && (
+                <div className="mt-4 rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-3 text-sm text-emerald-400">
+                  <p>Confirmation sent to <strong>{pendingEmail}</strong></p>
+                  <p className="mt-1 text-xs opacity-80">Check your inbox and confirm your email, then sign in below.</p>
+                </div>
+              )}
+
               <p className="text-sm text-center text-muted-foreground mt-6">
                 {mode === "signin" ? "New to Rooky Coach?" : "Already have an account?"}{" "}
                 <button
                   type="button"
                   className="text-primary font-semibold hover:underline"
-                  onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
+                  onClick={() => { setMode(mode === "signin" ? "signup" : "signin"); setPendingEmail(null); }}
                 >
                   {mode === "signin" ? "Create an account" : "Sign in"}
                 </button>
