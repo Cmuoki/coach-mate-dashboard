@@ -44,20 +44,39 @@ function SplashLanding() {
 
   if (!ready) {
     return (
-      <div className="min-h-screen relative overflow-hidden grid place-items-center">
+      <div className="min-h-screen relative overflow-hidden flex flex-col items-center justify-center">
         <div aria-hidden className="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
-          <img src={chessBg.url} alt="" className="absolute inset-0 h-full w-full object-cover opacity-60" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/55 via-background/70 to-background/90" />
+          <img src={chessBg.url} alt="" className="absolute inset-0 h-full w-full object-cover opacity-30" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/85 via-background/92 to-background/98" />
         </div>
-        <div className="flex flex-col items-center gap-5">
-          <div className="relative h-20 w-20 rounded-2xl bg-gradient-to-br from-primary to-primary/60 text-primary-foreground grid place-items-center text-5xl shadow-2xl shadow-primary/40 animate-float">
-            ♜
-            <span className="absolute -top-1.5 -right-1.5 h-4 w-4 rounded-full bg-emerald-400 ring-2 ring-background animate-pulse" />
+        <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 opacity-[0.035] chess-board-bg" />
+
+        <div className="flex flex-col items-center gap-10 text-center px-6 animate-pop-in">
+          <div className="relative">
+            <div
+              className="h-28 w-28 rounded-[2rem] bg-gradient-to-br from-primary to-primary/50 text-primary-foreground grid place-items-center text-7xl shadow-2xl shadow-primary/20 animate-float"
+              style={{ ["--rot" as any]: "0deg" }}
+            >
+              ♜
+            </div>
+            <span className="absolute -bottom-1.5 -right-1.5 h-5 w-5 rounded-full bg-emerald-400 ring-[3px] ring-background animate-pulse" />
           </div>
-          <div className="flex items-center gap-2 text-xs tracking-[0.4em] uppercase text-primary/80">
-            <span className="h-px w-8 bg-primary/60" />
+
+          <div className="space-y-3">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[0.95]">
+              The Board is Set.
+            </h1>
+            <p className="text-2xl sm:text-3xl font-semibold text-primary tracking-tight">
+              Let&apos;s Coach.
+            </p>
+          </div>
+
+          <div className="w-56 h-1.5 rounded-full bg-muted/80 overflow-hidden relative">
+            <div className="absolute inset-y-0 left-0 w-2/3 bg-gradient-to-r from-primary/60 via-primary to-primary/60 rounded-full animate-pulse" />
+          </div>
+
+          <div className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
             Rooky Coach
-            <span className="h-px w-8 bg-primary/60" />
           </div>
         </div>
       </div>
