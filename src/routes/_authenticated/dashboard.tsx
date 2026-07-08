@@ -12,33 +12,33 @@ import {
   School as SchoolIcon, Clock, BookOpen, LogOut, Sparkles, Crown, Flame,
 } from "lucide-react";
 import chessKing from "@/assets/chess-king.jpg";
-import chessFallen from "@/assets/chess-fallen.webp.asset.json";
-import chessRook from "@/assets/chess-rook.webp.asset.json";
-import chessLineup from "@/assets/chess-lineup.webp.asset.json";
-import chessBg from "@/assets/chess-bg.jpg.asset.json";
-import chessKnight from "@/assets/chess-knight.jpg.asset.json";
-import chessCrown from "@/assets/chess-crown.jpg.asset.json";
-import statStudents from "@/assets/stat-students.jpg.asset.json";
-import statClasses from "@/assets/stat-classes.jpg.asset.json";
-import statSchools from "@/assets/stat-schools.jpg.asset.json";
-import statWeek from "@/assets/stat-week.jpg.asset.json";
-import statAttendance from "@/assets/stat-attendance.jpg.asset.json";
-import statBadges from "@/assets/stat-badges.jpg.asset.json";
+import chessFallen from "@/assets/chess-fallen.webp";
+import chessRook from "@/assets/chess-rook.webp";
+import chessLineup from "@/assets/chess-lineup.webp";
+import chessBg from "@/assets/chess-bg.jpg";
+import chessKnight from "@/assets/chess-knight.jpg";
+import chessCrown from "@/assets/chess-crown.jpg";
+import statStudents from "@/assets/stat-students.jpg";
+import statClasses from "@/assets/stat-classes.jpg";
+import statSchools from "@/assets/stat-schools.jpg";
+import statWeek from "@/assets/stat-week.jpg";
+import statAttendance from "@/assets/stat-attendance.jpg";
+import statBadges from "@/assets/stat-badges.jpg";
 
 const CHESS_IMAGES = {
   king: chessKing,
-  fallen: chessFallen.url,
-  rook: chessRook.url,
-  lineup: chessLineup.url,
-  bg: chessBg.url,
-  knight: chessKnight.url,
-  crown: chessCrown.url,
-  statStudents: statStudents.url,
-  statClasses: statClasses.url,
-  statSchools: statSchools.url,
-  statWeek: statWeek.url,
-  statAttendance: statAttendance.url,
-  statBadges: statBadges.url,
+  fallen: chessFallen,
+  rook: chessRook,
+  lineup: chessLineup,
+  bg: chessBg,
+  knight: chessKnight,
+  crown: chessCrown,
+  statStudents: statStudents,
+  statClasses: statClasses,
+  statSchools: statSchools,
+  statWeek: statWeek,
+  statAttendance: statAttendance,
+  statBadges: statBadges,
 };
 
 export const Route = createFileRoute("/_authenticated/dashboard")({

@@ -4,10 +4,10 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { supabase } from "@/integrations/supabase/client";
 import { LogOut, LayoutDashboard, School as SchoolIcon, GraduationCap, Users, BookOpen, ScrollText, Award, TrendingUp, FileBarChart } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
-import chessBg from "@/assets/chess-bg.jpg.asset.json";
-import chessKnight from "@/assets/chess-knight.jpg.asset.json";
-import chessRook from "@/assets/chess-rook.webp.asset.json";
-import chessCrown from "@/assets/chess-crown.jpg.asset.json";
+import chessBg from "@/assets/chess-bg.jpg";
+import chessKnight from "@/assets/chess-knight.jpg";
+import chessRook from "@/assets/chess-rook.webp";
+import chessCrown from "@/assets/chess-crown.jpg";
 
 const NAV = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -51,13 +51,13 @@ export function CoachShell({ children, title, subtitle, actions }: { children: R
   return (
     <div className="min-h-screen relative overflow-hidden">
       <div aria-hidden className="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
-        <img src={chessBg.url} alt="" className="absolute inset-0 h-full w-full object-cover opacity-50" />
+        <img src={chessBg} alt="" className="absolute inset-0 h-full w-full object-cover opacity-50" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/80 to-background/95" />
       </div>
       <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <img src={chessKnight.url} alt="" className="absolute top-24 -left-16 h-64 w-64 object-cover rounded-3xl opacity-25 blur-[1px] animate-float shadow-2xl" />
-        <img src={chessCrown.url} alt="" className="absolute top-1/3 -right-16 h-72 w-72 object-cover rounded-3xl opacity-25 blur-[1px] animate-float-slow shadow-2xl" />
-        <img src={chessRook.url} alt="" className="absolute bottom-10 left-1/3 h-56 w-56 object-cover rounded-3xl opacity-20 blur-[1px] animate-float shadow-2xl" />
+        <img src={chessKnight} alt="" className="absolute top-24 -left-16 h-64 w-64 object-cover rounded-3xl opacity-25 blur-[1px] animate-float shadow-2xl" />
+        <img src={chessCrown} alt="" className="absolute top-1/3 -right-16 h-72 w-72 object-cover rounded-3xl opacity-25 blur-[1px] animate-float-slow shadow-2xl" />
+        <img src={chessRook} alt="" className="absolute bottom-10 left-1/3 h-56 w-56 object-cover rounded-3xl opacity-20 blur-[1px] animate-float shadow-2xl" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/50 to-background/80" />
       </div>
 
