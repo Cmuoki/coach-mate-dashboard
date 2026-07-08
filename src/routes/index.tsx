@@ -5,12 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Flame, Sparkles, ArrowRight } from "lucide-react";
 import chessKing from "@/assets/chess-king.jpg";
-import chessBg from "@/assets/chess-bg.jpg.asset.json";
-import chessKnight from "@/assets/chess-knight.jpg.asset.json";
-import chessCrown from "@/assets/chess-crown.jpg.asset.json";
-import chessRook from "@/assets/chess-rook.webp.asset.json";
-import chessLineup from "@/assets/chess-lineup.webp.asset.json";
-import chessFallen from "@/assets/chess-fallen.webp.asset.json";
+import chessBg from "@/assets/chess-bg.jpg";
+import chessKnight from "@/assets/chess-knight.jpg";
+import chessCrown from "@/assets/chess-crown.jpg";
+import chessRook from "@/assets/chess-rook.webp";
+import chessLineup from "@/assets/chess-lineup.webp";
+import chessFallen from "@/assets/chess-fallen.webp";
 
 export const Route = createFileRoute("/")({
   ssr: false,
@@ -46,7 +46,7 @@ function SplashLanding() {
     return (
       <div className="min-h-screen relative overflow-hidden flex flex-col items-center justify-center">
         <div aria-hidden className="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
-          <img src={chessBg.url} alt="" className="absolute inset-0 h-full w-full object-cover opacity-30" />
+          <img src={chessBg} alt="" className="absolute inset-0 h-full w-full object-cover opacity-30" />
           <div className="absolute inset-0 bg-gradient-to-b from-background/85 via-background/92 to-background/98" />
         </div>
         <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 opacity-[0.035] chess-board-bg" />
@@ -87,15 +87,15 @@ function SplashLanding() {
     <div className="min-h-screen relative overflow-hidden">
       {/* Ambient chess photo backdrop — matches dashboard */}
       <div aria-hidden className="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
-        <img src={chessBg.url} alt="" className="absolute inset-0 h-full w-full object-cover opacity-60" />
+        <img src={chessBg} alt="" className="absolute inset-0 h-full w-full object-cover opacity-60" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/55 via-background/70 to-background/90" />
       </div>
       <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <img src={chessKnight.url} alt="" className="absolute top-16 -left-10 h-64 w-64 object-cover rounded-3xl opacity-40 blur-[1px] animate-float shadow-2xl" />
-        <img src={chessCrown.url} alt="" className="absolute top-1/4 -right-12 h-72 w-72 object-cover rounded-3xl opacity-35 blur-[1px] animate-float-slow shadow-2xl" />
-        <img src={chessRook.url} alt="" className="absolute top-[55%] left-[5%] h-56 w-56 object-cover rounded-3xl opacity-30 blur-[1px] animate-float-slow shadow-2xl" style={{ animationDelay: "1.2s" }} />
-        <img src={chessLineup.url} alt="" className="absolute bottom-10 right-1/4 h-60 w-72 object-cover rounded-3xl opacity-30 blur-[1px] animate-float shadow-2xl" style={{ animationDelay: "2s" }} />
-        <img src={chessFallen.url} alt="" className="absolute top-[45%] left-1/2 -translate-x-1/2 h-52 w-52 object-cover rounded-3xl opacity-25 blur-[2px] animate-float-slow shadow-2xl" style={{ animationDelay: "0.8s" }} />
+        <img src={chessKnight} alt="" className="absolute top-16 -left-10 h-64 w-64 object-cover rounded-3xl opacity-40 blur-[1px] animate-float shadow-2xl" />
+        <img src={chessCrown} alt="" className="absolute top-1/4 -right-12 h-72 w-72 object-cover rounded-3xl opacity-35 blur-[1px] animate-float-slow shadow-2xl" />
+        <img src={chessRook} alt="" className="absolute top-[55%] left-[5%] h-56 w-56 object-cover rounded-3xl opacity-30 blur-[1px] animate-float-slow shadow-2xl" style={{ animationDelay: "1.2s" }} />
+        <img src={chessLineup} alt="" className="absolute bottom-10 right-1/4 h-60 w-72 object-cover rounded-3xl opacity-30 blur-[1px] animate-float shadow-2xl" style={{ animationDelay: "2s" }} />
+        <img src={chessFallen} alt="" className="absolute top-[45%] left-1/2 -translate-x-1/2 h-52 w-52 object-cover rounded-3xl opacity-25 blur-[2px] animate-float-slow shadow-2xl" style={{ animationDelay: "0.8s" }} />
         <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/40 to-background/70" />
       </div>
 
@@ -170,9 +170,9 @@ function SplashLanding() {
         {/* Feature trio — matches dashboard card language */}
         <section className="grid sm:grid-cols-3 gap-4">
           {[
-            { img: chessRook.url, title: "Anchor your roster", body: "Students, classes and schools held in perfect castling." },
-            { img: chessLineup.url, title: "Run the lineup", body: "Lessons, attendance and curriculum coverage at a glance." },
-            { img: chessFallen.url, title: "Crown the wins", body: "Track badges, progress and the prodigies climbing the ranks." },
+            { img: chessRook, title: "Anchor your roster", body: "Students, classes and schools held in perfect castling." },
+            { img: chessLineup, title: "Run the lineup", body: "Lessons, attendance and curriculum coverage at a glance." },
+            { img: chessFallen, title: "Crown the wins", body: "Track badges, progress and the prodigies climbing the ranks." },
           ].map((f) => (
             <article key={f.title} className="group relative overflow-hidden rounded-2xl border border-border/60 bg-background/60 backdrop-blur shadow-lg shadow-primary/5 animate-pop-in">
               <div className="relative h-40 overflow-hidden">

@@ -9,12 +9,12 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { Flame, Sparkles } from "lucide-react";
 import chessKing from "@/assets/chess-king.jpg";
-import chessBg from "@/assets/chess-bg.jpg.asset.json";
-import chessKnight from "@/assets/chess-knight.jpg.asset.json";
-import chessCrown from "@/assets/chess-crown.jpg.asset.json";
-import chessRook from "@/assets/chess-rook.webp.asset.json";
-import chessLineup from "@/assets/chess-lineup.webp.asset.json";
-import chessFallen from "@/assets/chess-fallen.webp.asset.json";
+import chessBg from "@/assets/chess-bg.jpg";
+import chessKnight from "@/assets/chess-knight.jpg";
+import chessCrown from "@/assets/chess-crown.jpg";
+import chessRook from "@/assets/chess-rook.webp";
+import chessLineup from "@/assets/chess-lineup.webp";
+import chessFallen from "@/assets/chess-fallen.webp";
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
@@ -92,16 +92,16 @@ function AuthPage() {
     <div className="min-h-screen relative overflow-hidden">
       {/* Ambient chess photo backdrop — matches dashboard */}
       <div aria-hidden className="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
-        <img src={chessBg.url} alt="" className="absolute inset-0 h-full w-full object-cover opacity-60" />
+        <img src={chessBg} alt="" className="absolute inset-0 h-full w-full object-cover opacity-60" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/55 via-background/70 to-background/90" />
       </div>
       {/* Floating chess photo collage */}
       <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <img src={chessKnight.url} alt="" className="absolute top-16 -left-10 h-64 w-64 object-cover rounded-3xl opacity-40 blur-[1px] animate-float shadow-2xl" />
-        <img src={chessCrown.url} alt="" className="absolute top-1/4 -right-12 h-72 w-72 object-cover rounded-3xl opacity-35 blur-[1px] animate-float-slow shadow-2xl" />
-        <img src={chessRook.url} alt="" className="absolute top-[55%] left-[5%] h-56 w-56 object-cover rounded-3xl opacity-30 blur-[1px] animate-float-slow shadow-2xl" style={{ animationDelay: "1.2s" }} />
-        <img src={chessLineup.url} alt="" className="absolute bottom-10 right-1/4 h-60 w-72 object-cover rounded-3xl opacity-30 blur-[1px] animate-float shadow-2xl" style={{ animationDelay: "2s" }} />
-        <img src={chessFallen.url} alt="" className="absolute top-[45%] left-1/2 -translate-x-1/2 h-52 w-52 object-cover rounded-3xl opacity-25 blur-[2px] animate-float-slow shadow-2xl" style={{ animationDelay: "0.8s" }} />
+        <img src={chessKnight} alt="" className="absolute top-16 -left-10 h-64 w-64 object-cover rounded-3xl opacity-40 blur-[1px] animate-float shadow-2xl" />
+        <img src={chessCrown} alt="" className="absolute top-1/4 -right-12 h-72 w-72 object-cover rounded-3xl opacity-35 blur-[1px] animate-float-slow shadow-2xl" />
+        <img src={chessRook} alt="" className="absolute top-[55%] left-[5%] h-56 w-56 object-cover rounded-3xl opacity-30 blur-[1px] animate-float-slow shadow-2xl" style={{ animationDelay: "1.2s" }} />
+        <img src={chessLineup} alt="" className="absolute bottom-10 right-1/4 h-60 w-72 object-cover rounded-3xl opacity-30 blur-[1px] animate-float shadow-2xl" style={{ animationDelay: "2s" }} />
+        <img src={chessFallen} alt="" className="absolute top-[45%] left-1/2 -translate-x-1/2 h-52 w-52 object-cover rounded-3xl opacity-25 blur-[2px] animate-float-slow shadow-2xl" style={{ animationDelay: "0.8s" }} />
         <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/40 to-background/70" />
       </div>
 
