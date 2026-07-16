@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { getCurrentSessionSafely } from "@/lib/auth-session";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Flame, Sparkles, ArrowRight } from "lucide-react";
@@ -33,13 +34,18 @@ function SplashLanding() {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) {
+    let active = true;
+    getCurrentSessionSafely().then((session) => {
+      if (!active) return;
+      if (session) {
         navigate({ to: "/dashboard" });
       } else {
         setReady(true);
       }
     });
+    return () => {
+      active = false;
+    };
   }, [navigate]);
 
   if (!ready) {
