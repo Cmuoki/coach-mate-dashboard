@@ -1,6 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { getCurrentSessionSafely } from "@/lib/auth-session";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
