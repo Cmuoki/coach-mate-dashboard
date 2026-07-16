@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
-import { clearLocalAuthSession, getCurrentSessionSafely } from "@/lib/auth-session";
+import { clearLocalAuthSession, ensureCoachProfile, getCurrentSessionSafely } from "@/lib/auth-session";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -78,8 +78,9 @@ function AuthPage() {
         }
       } else {
         await clearLocalAuthSession();
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
+        if (data.user) await ensureCoachProfile(data.user);
         navigate({ to: "/dashboard" });
       }
     } catch (err: any) {
