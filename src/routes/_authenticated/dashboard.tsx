@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { ensureCoachProfile } from "@/lib/auth-session";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -81,7 +82,7 @@ function Dashboard() {
     if (!user) return;
 
     const { data: coachRow } = await supabase.from("coaches").select("id, full_name, email").eq("id", user.id).maybeSingle();
-    const c: Coach = coachRow ?? { id: user.id, email: user.email ?? null, full_name: (user.user_metadata as any)?.full_name ?? null };
+    const c: Coach = coachRow ?? await ensureCoachProfile(user);
     setCoach(c);
 
     const today = new Date();
